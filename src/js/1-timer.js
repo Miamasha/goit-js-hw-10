@@ -37,10 +37,12 @@ const options = {
 
   function activateStartButton(){
     startButton.disabled = false;
+    startButton.classList.add("canstart"); //js add class="canstart" while active, change button color
   }
 
   function deactivateStartButton(){
     startButton.disabled = true;
+    startButton.classList.remove("active");
   }
 
   function startButtonClick(){

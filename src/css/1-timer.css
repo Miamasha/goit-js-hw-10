@@ -3,6 +3,7 @@ body {
 }
 
 
+
 input {
     width: 272px;
     height: 40px;
@@ -28,6 +29,8 @@ input:focus {
 }
 
 
+
+
 button {
     width: 75px;
     height: 40px;
@@ -49,6 +52,9 @@ button:focus {
     background: #4E75FF;
     color: rgba(255, 255, 255, 1);
 }
+
+
+
 
 .timer {
     width: 346px;

@@ -9,16 +9,21 @@ import "izitoast/dist/css/iziToast.min.css";
 
 
 let userSelectedDate;
-let startButton = document.querySelector("[data-start]");
+const startButton = document.querySelector("[data-start]");
 startButton.addEventListener('click', startButtonClick);
 deactivateStartButton();
 
+// selectedDates[0] - константа flatpickr, що зберігає обрану дату,
+// але вона не знаходиться в області видимості цього коду, тому треба let userSelectedDate.
+// Oб'єкт options, підготований GoIt, потрібний для виконання завдання,
+// другим аргументом функції flatpickr(selector, options):
 const options = {
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
+      // console.log(selectedDates[0]);
       userSelectedDate = selectedDates[0];
       if(userSelectedDate < Date.now()){
         iziToast.error({
@@ -42,27 +47,25 @@ const options = {
 
   function deactivateStartButton(){
     startButton.disabled = true;
-    startButton.classList.remove("active");
+    startButton.classList.remove("canstart");
   }
 
   function startButtonClick(){
     deactivateStartButton();
     let interval = setInterval(() => {
 
-        let currentDate = Date.now();
-        let ms = userSelectedDate - currentDate;
+        let ms = userSelectedDate - Date.now(); // get ms!!!!!!!!!
         let result = { days: 0, hours: 0, minutes: 0, seconds: 0 };
-        if(ms > 0) { 
-            result = convertMs(ms);
+        if(ms >= 0) { 
+            result = convertMs(ms); //при ms<0 виводитись значення перестануть, але інтервал ще функціонуватиме
         }
-        else {
-            clearInterval(interval);
-            activateStartButton();
+        else {                               
+            clearInterval(interval); // щоб інтервал i функціонувати перестав, коли стане ms<0
         }
-        document.querySelector('[data-days]').innerHTML = addLeadingZero(result.days);
-        document.querySelector('[data-hours]').innerHTML = addLeadingZero(result.hours);
-        document.querySelector('[data-minutes]').innerHTML = addLeadingZero(result.minutes);
-        document.querySelector('[data-seconds]').innerHTML = addLeadingZero(result.seconds);
+        document.querySelector('[data-days]').textContent = addLeadingZero(result.days);
+        document.querySelector('[data-hours]').textContent = addLeadingZero(result.hours);
+        document.querySelector('[data-minutes]').textContent = addLeadingZero(result.minutes);
+        document.querySelector('[data-seconds]').textContent = addLeadingZero(result.seconds);
     }, 1000);
   }
 
